@@ -58,7 +58,10 @@ const AutoComplete = ({ data, keys = [] }) => {
 
     filteredByKey.forEach((item) => {
       const searchTerms = Object.values(item);
-      const filter = searchTerms.filter((term) => term.includes(value));
+      const filter = searchTerms.filter((term) => {
+        const lcTerm = term.toLowerCase();
+        return lcTerm.includes(value.toLowerCase());
+      });
 
       if (filter.length > 0) results.push(item);
     });
