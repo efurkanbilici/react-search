@@ -1,6 +1,8 @@
 import * as React from "react";
 import PropTypes from "prop-types";
 import { FiSearch, FiMail, FiLink2 } from "react-icons/fi";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 
 const AutoComplete = ({ data, keys = [] }) => {
   const [state, setState] = React.useState({
@@ -108,8 +110,15 @@ const AutoComplete = ({ data, keys = [] }) => {
                   key={index}
                   className="border rounded py-2 px-4 items-center profile-card"
                 >
-                  <div className="border rounded-xl overflow-hidden h-[64px] object-cover">
-                    <img src={`https://picsum.photos/64/64?random=${index}`} />
+                  <div className="border rounded-xl overflow-hidden h-[64px]">
+                    <LazyLoadImage
+                      alt={`${block.name.split(" ")[0]}'s profile picture`}
+                      src={`https://picsum.photos/64/64?random=${index}`}
+                      effect="blur"
+                      height={64}
+                      width={64}
+                      className="object-cover"
+                    />
                   </div>
                   <div className="flex flex-col justify-between text-left gap-3">
                     <div className="flex flex-col">
