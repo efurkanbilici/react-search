@@ -45,10 +45,15 @@ input[type="search"]::-webkit-search-cancel-button {
 }
 
 .backdrop {
+  --color: #fff;
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
   min-height: 4rem;
-  background-image: linear-gradient(0, #fff, transparent);
+  background-image: linear-gradient(0, var(--color), transparent);
+
+  @media (prefers-color-scheme: dark) {
+    --color: rgb(2, 6, 23);
+  }
 }
