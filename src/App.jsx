@@ -1,6 +1,9 @@
+/** @author Emir Furkan <efurkanbilici@gmail.com> */
+
 import * as React from "react";
 import axios from "axios";
 import AutoComplete from "./Autocomplete";
+import Layout from "./components/layout";
 
 function App() {
   const [data, setData] = React.useState([]);
@@ -23,6 +26,9 @@ function App() {
         <AutoComplete
           data={data}
           keys={["name", "username", "email", "website"]}
+          component={{
+            render: Layout,
+          }}
         />
       ) : (
         <div className="wrapper bg-gray-200 animate-pulse" />

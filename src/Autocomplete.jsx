@@ -1,11 +1,14 @@
 import * as React from "react";
 import PropTypes from "prop-types";
-import { FiSearch, FiMail, FiLink2 } from "react-icons/fi";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import "react-lazy-load-image-component/src/effects/blur.css";
+import { FiSearch } from "react-icons/fi";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 
-const AutoComplete = ({ data, keys = [] }) => {
+/**
+ * @param {array} data
+ * @param {array} keys
+ * @param {object} component
+ */
+const AutoComplete = ({ data = [], keys = [], component }) => {
   const [parent] = useAutoAnimate({
     duration: 150,
   });
@@ -16,6 +19,10 @@ const AutoComplete = ({ data, keys = [] }) => {
     event: "init",
   });
 
+  /**
+   * To update state use following method
+   * @param {object} obj
+   */
   const updateState = (obj = {}) => {
     let inc = [],
       noInc = [],
@@ -46,8 +53,11 @@ const AutoComplete = ({ data, keys = [] }) => {
     setState({ ...state, ...update });
   };
 
-  const handleChange = (e) => {
-    const { value } = e.target;
+  /**
+   * @param {React.ChangeEvent} event
+   */
+  const handleChange = (event) => {
+    const { value } = event.target;
     const results = [];
 
     const filteredByKey = data.map((item) => {
@@ -113,47 +123,14 @@ const AutoComplete = ({ data, keys = [] }) => {
               <b>{state.res.length}</b> results are listed for your search
             </span>
             <div className="flex flex-col gap-4 pt-3 pb-16" ref={parent}>
-              {state.res.map((block, index) => (
-                <div
-                  key={index}
-                  className="border rounded py-2 px-4 items-center profile-card dark:border-gray-700"
-                >
-                  <div className="border rounded-xl overflow-hidden h-[64px] dark:border-gray-700">
-                    <LazyLoadImage
-                      alt={`${block.name.split(" ")[0]}'s profile picture`}
-                      src={`https://picsum.photos/64/64?random=${index}`}
-                      effect="blur"
-                      height={64}
-                      width={64}
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="flex flex-col justify-between text-left gap-3">
-                    <div className="flex flex-col">
-                      <h3 className="text-slate-800 dark:text-slate-300 text-sm tracking-tighter font-semibold">
-                        {block.name}
-                      </h3>
-                      <span className="text-[10px] leading-3 text-gray-500 dark:text-slate-400">
-                        @{block.username}
-                      </span>
-                    </div>
-                    <div className="flex flex-col">
-                      <a
-                        href={`mailto:${block.email}`}
-                        className="flex items-center justify-start gap-1.5 text-slate-600 dark:text-slate-500 text-[11px] leading-4 hover:text-indigo-700 dark:hover:text-indigo-300 hover:underline"
-                      >
-                        <FiMail /> {block.email}
-                      </a>
-                      <a
-                        href={`https://${block.website}`}
-                        target="_blank"
-                        className="flex items-center justify-start gap-1.5 text-slate-600 dark:text-slate-500 text-[11px] leading-4 hover:text-indigo-700 dark:hover:text-indigo-300 hover:underline"
-                      >
-                        <FiLink2 /> {block.website}
-                      </a>
-                    </div>
-                  </div>
-                </div>
+              {state.res.map(($data, i) => (
+                <component.render
+                  key={i}
+                  data={{
+                    ...$data,
+                    key: i,
+                  }}
+                />
               ))}
             </div>
           </>
@@ -165,7 +142,8 @@ const AutoComplete = ({ data, keys = [] }) => {
 
 AutoComplete.propTypes = {
   data: PropTypes.array.isRequired,
-  keys: PropTypes.array,
+  keys: PropTypes.array.isRequired,
+  component: PropTypes.object.isRequired,
 };
 
 export default AutoComplete;
