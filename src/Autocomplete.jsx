@@ -3,8 +3,13 @@ import PropTypes from "prop-types";
 import { FiSearch, FiMail, FiLink2 } from "react-icons/fi";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 const AutoComplete = ({ data, keys = [] }) => {
+  const [parent] = useAutoAnimate({
+    duration: 150,
+  });
+
   const [state, setState] = React.useState({
     value: "",
     res: [],
@@ -104,7 +109,7 @@ const AutoComplete = ({ data, keys = [] }) => {
             <span className="message">
               <b>{state.res.length}</b> results are listed for your search
             </span>
-            <div className="flex flex-col gap-4 py-3">
+            <div className="flex flex-col gap-4 pt-3 pb-16" ref={parent}>
               {state.res.map((block, index) => (
                 <div
                   key={index}

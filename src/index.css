@@ -21,6 +21,10 @@
   outline: 0;
 }
 
+*::-webkit-scrollbar {
+  width: 0;
+}
+
 .wrapper {
   @apply relative w-[320px] h-10 rounded-sm shadow p-2;
 }
@@ -38,4 +42,13 @@ input[type="search"]::-webkit-search-cancel-button {
   grid-template: 1fr / 64px 1fr;
   grid-template-areas: "picture content";
   grid-gap: 16px;
+}
+
+.backdrop {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  min-height: 4rem;
+  background-image: linear-gradient(0, #fff, transparent);
 }
